@@ -77,6 +77,18 @@ iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#111}
   function abrir(){ f.src = PANEL_URL + (PANEL_URL.indexOf("?") > -1 ? "&" : "?") + "nb=-10&t=" + Date.now(); }
   abrir();
   document.body.appendChild(f);
+  /* El panel vive en otro dominio y no avisa cuando alguien entra. Se usa una señal indirecta: al tocar adentro del panel
+     (la tarjeta de la persona) el foco pasa al marco; 25 s después el aviso se desvanece solo. Si se recarga la página, vuelve. */
+  var tAviso = null;
+  window.addEventListener("blur", function(){
+    setTimeout(function(){
+      if(document.activeElement !== f || tAviso || av.hidden) return;
+      tAviso = setTimeout(function(){
+        av.style.transition = "opacity .7s ease, transform .7s ease"; av.style.opacity = "0"; av.style.transform = "translateY(-12px)";
+        setTimeout(function(){ av.hidden = true; }, 750);
+      }, 25000);
+    }, 50);
+  });
   // El panel pide recargarse cuando hay una versión nueva: se vuelve a abrir el marco.
   window.addEventListener("message", function(e){ if(e.data && e.data.ingenia === "recargar") abrir(); });
 })();
