@@ -42,7 +42,6 @@ window.DN_API = "https://script.google.com/macros/s/AKfycbxYfuw6HK_QLR0o7IkRfJry
 <meta name="color-scheme" content="only light">
 <meta name="darkreader-lock">
 <meta name="theme-color" content="#111111">
-<script>try{var _t=localStorage.getItem("co_tema");if(_t==="oscuro"||_t==="claro")document.documentElement.setAttribute("data-tema",_t);}catch(e){}</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Casa Olmedo">
 <meta property="og:title" content="Casa Olmedo — Pedí online">
@@ -400,58 +399,22 @@ fieldset.field legend{padding:0;margin-bottom:.3rem}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 
-/* ===== modo noche ===== */
 :root{color-scheme:only light}
-:root[data-tema="oscuro"]{color-scheme:dark;--fondo:#171410;--blanco:#221E18;--sep:#3A3328;--txt2:#A9A190;--ink:#F2ECE0;--detalles:#C9A877}
-:root[data-tema="oscuro"] .top{color:#fff}
-:root[data-tema="oscuro"] .hero,:root[data-tema="oscuro"] .banner{color:#F4F0E8}
-:root[data-tema="oscuro"] .hero h1,:root[data-tema="oscuro"] .banner h2{color:#F4F0E8}
-:root[data-tema="oscuro"] .btn-dark{background:#322D24;color:#F2ECE0}
-:root[data-tema="oscuro"] .btn-dark:hover{background:#3d372c}
-:root[data-tema="oscuro"] .pill[aria-pressed="true"]{background:var(--cta);border-color:var(--cta);color:var(--cta-text)}
-:root[data-tema="oscuro"] .add.menos{color:var(--ink)}
-:root[data-tema="oscuro"] .porque-list p,:root[data-tema="oscuro"] .contacto p,:root[data-tema="oscuro"] .ok-box p{color:#cfc7b6}
-:root[data-tema="oscuro"] .card-img{background:#2A251D}
-:root[data-tema="oscuro"] .sk i,:root[data-tema="oscuro"] .sk .sk-img{background:linear-gradient(100deg,#2a251d 30%,#38322a 50%,#2a251d 70%);background-size:220% 100%}
-:root[data-tema="oscuro"] .radios input{accent-color:var(--cta)}
-:root[data-tema="oscuro"] .radios label:has(input:checked){border-color:var(--cta);box-shadow:inset 0 0 0 1px var(--cta)}
-:root[data-tema="oscuro"] .toast{background:#322D24}
-:root[data-tema="oscuro"] .drawer{box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.1)}
-:root[data-tema="oscuro"] .step button:hover{background:#322D24}
-.logo-n{display:none}
-:root[data-tema="oscuro"] .brand img{display:none}
-:root[data-tema="oscuro"] .brand img.logo-n{display:block}
-:root[data-tema="oscuro"] .top{background:#F4F0E8;color:#1C1712}
-:root[data-tema="oscuro"] .top.scrolled{box-shadow:0 10px 30px rgba(0,0,0,.5)}
-:root[data-tema="oscuro"] .cart-btn,:root[data-tema="oscuro"] .tema-btn{border-color:rgba(28,23,18,.35);color:#1C1712}
-:root[data-tema="oscuro"] .cart-btn:hover,:root[data-tema="oscuro"] .tema-btn:hover{border-color:#8a6a1f}
-:root[data-tema="oscuro"] .cart-count[data-n="0"]{background:rgba(28,23,18,.15);color:#1C1712}
-.tema-btn{width:2.5rem;height:2.5rem;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.28);border-radius:50%;color:#fff;flex-shrink:0;transition:border-color .2s,transform .25s var(--spring)}
-.tema-btn:hover{border-color:var(--cta)}
-.tema-btn:active{transform:scale(.88)}
-.tema-btn svg{width:1.2rem;height:1.2rem}
-.tema-btn.swap{animation:temaGlow 1s ease-out}
-@keyframes temaGlow{0%{box-shadow:0 0 0 0 rgba(201,154,50,.65);border-color:var(--cta)}100%{box-shadow:0 0 0 20px rgba(201,154,50,0)}}
-.tema-btn.swap svg{animation:temaGiro .65s var(--spring)}
-@keyframes temaGiro{from{transform:rotate(-120deg) scale(.3);opacity:0}}
 .top .acciones{display:flex;align-items:center;gap:.6rem}
-::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
-::view-transition-new(root){z-index:2}
-html.tema-fade,html.tema-fade *{transition:background-color .45s ease,border-color .45s ease,color .3s ease!important}
 </style>
 </head>
 <body>
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#inicio" data-rv="edge" data-d="80" aria-label="Casa Olmedo — inicio"><img src="assets/logo-blanco.png" alt="Casa Olmedo, almacén de quesos y fiambres" width="117" height="78"><img class="logo-n" src="assets/logo-negro.png" alt="" aria-hidden="true" width="117" height="78"></a>
+    <a class="brand" href="#inicio" data-rv="edge" data-d="80" aria-label="Casa Olmedo — inicio"><img src="assets/logo-blanco.png" alt="Casa Olmedo, almacén de quesos y fiambres" width="117" height="78"></a>
     <nav class="nav" aria-label="Principal">
       <a href="#productos" data-rv="down" data-st data-d="320">Productos</a>
       <a href="#nosotros" data-rv="down" data-st data-d="320">Nosotros</a>
       <a href="#como-pedir" data-rv="down" data-st data-d="320">Cómo pedir</a>
       <a href="#contacto" data-rv="down" data-st data-d="320">Contacto</a>
     </nav>
-    <div class="acciones"><button class="tema-btn" id="temaBtn" aria-label="Pasar a modo noche" title="Modo noche"></button><button class="cart-btn" data-abrir-carrito data-rv="edger" data-d="240" aria-label="Abrir tu pedido">
+    <div class="acciones"><button class="cart-btn" data-abrir-carrito data-rv="edger" data-d="240" aria-label="Abrir tu pedido">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2.2l2 11h10.6l1.7-8H6.2"/><circle cx="9" cy="19.5" r="1.4"/><circle cx="17" cy="19.5" r="1.4"/></svg>
       <span class="t">Mi pedido</span><span class="cart-count" data-n="0" data-count>0</span>
     </button></div>
@@ -1240,38 +1203,6 @@ document.addEventListener("visibilitychange", function(){ // si la persona vuelv
 });
 })();
 
-/* ===== modo día / noche (revelado circular desde el botón) ===== */
-(function(){
-  var SOL='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
-  var LUNA='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>';
-  var H=document.documentElement, btn=document.getElementById("temaBtn");
-  function oscuro(){ return H.getAttribute("data-tema")==="oscuro"; }
-  function pintar(swap){
-    var d=oscuro();
-    btn.innerHTML=d?SOL:LUNA;
-    btn.setAttribute("aria-label",d?"Pasar a modo día":"Pasar a modo noche");
-    btn.title=d?"Modo día":"Modo noche";
-    var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content",d?"#F4F0E8":"#111111");
-    if(swap){ btn.classList.remove("swap"); void btn.offsetWidth; btn.classList.add("swap"); }
-  }
-  function poner(t){ H.setAttribute("data-tema",t); try{ localStorage.setItem("co_tema",t); }catch(e){} }
-  function cambiar(){
-    var nuevo=oscuro()?"claro":"oscuro";
-    var apply=function(){ poner(nuevo); pintar(true); };
-    var reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if(reduce){ apply(); return; }
-    if(document.startViewTransition){
-      var r=btn.getBoundingClientRect(), x=r.left+r.width/2, y=r.top+r.height/2;
-      var rad=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
-      var vt=document.startViewTransition(apply);
-      vt.ready.then(function(){ H.animate({clipPath:["circle(0px at "+x+"px "+y+"px)","circle("+rad+"px at "+x+"px "+y+"px)"]},{duration:650,easing:"cubic-bezier(.65,0,.35,1)",pseudoElement:"::view-transition-new(root)"}); }).catch(function(){});
-    } else {
-      H.classList.add("tema-fade"); apply(); setTimeout(function(){ H.classList.remove("tema-fade"); },500);
-    }
-  }
-  btn.addEventListener("click",cambiar);
-  pintar(false);
-})();
 </script>
 </body>
 </html>
