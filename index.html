@@ -39,8 +39,10 @@ window.DN_API = "https://script.google.com/macros/s/AKfycbxYfuw6HK_QLR0o7IkRfJry
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Casa Olmedo — Almacén de quesos y fiambres</title>
 <meta name="description" content="Quesos, fiambres, vinos y conservas. Armá tu pedido online y retiralo en el almacén o pedí envío.">
+<meta name="color-scheme" content="only light">
+<meta name="darkreader-lock">
 <meta name="theme-color" content="#111111">
-<script>try{var _t=localStorage.getItem("co_tema");if(_t==="oscuro"||_t==="claro")document.documentElement.setAttribute("data-tema",_t);else if(matchMedia("(prefers-color-scheme:dark)").matches)document.documentElement.setAttribute("data-tema","oscuro")}catch(e){}</script>
+<script>try{var _t=localStorage.getItem("co_tema");if(_t==="oscuro"||_t==="claro")document.documentElement.setAttribute("data-tema",_t);}catch(e){}</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Casa Olmedo">
 <meta property="og:title" content="Casa Olmedo — Pedí online">
@@ -399,6 +401,7 @@ fieldset.field legend{padding:0;margin-bottom:.3rem}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
 
 /* ===== modo noche ===== */
+:root{color-scheme:only light}
 :root[data-tema="oscuro"]{color-scheme:dark;--fondo:#171410;--blanco:#221E18;--sep:#3A3328;--txt2:#A9A190;--ink:#F2ECE0;--detalles:#C9A877}
 :root[data-tema="oscuro"] .top{color:#fff}
 :root[data-tema="oscuro"] .hero,:root[data-tema="oscuro"] .banner{color:#F4F0E8}
