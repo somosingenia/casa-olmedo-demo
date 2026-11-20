@@ -418,6 +418,14 @@ fieldset.field legend{padding:0;margin-bottom:.3rem}
 :root[data-tema="oscuro"] .toast{background:#322D24}
 :root[data-tema="oscuro"] .drawer{box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.1)}
 :root[data-tema="oscuro"] .step button:hover{background:#322D24}
+.logo-n{display:none}
+:root[data-tema="oscuro"] .brand img{display:none}
+:root[data-tema="oscuro"] .brand img.logo-n{display:block}
+:root[data-tema="oscuro"] .top{background:#F4F0E8;color:#1C1712}
+:root[data-tema="oscuro"] .top.scrolled{box-shadow:0 10px 30px rgba(0,0,0,.5)}
+:root[data-tema="oscuro"] .cart-btn,:root[data-tema="oscuro"] .tema-btn{border-color:rgba(28,23,18,.35);color:#1C1712}
+:root[data-tema="oscuro"] .cart-btn:hover,:root[data-tema="oscuro"] .tema-btn:hover{border-color:#8a6a1f}
+:root[data-tema="oscuro"] .cart-count[data-n="0"]{background:rgba(28,23,18,.15);color:#1C1712}
 .tema-btn{width:2.5rem;height:2.5rem;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.28);border-radius:50%;color:#fff;flex-shrink:0;transition:border-color .2s,transform .25s var(--spring)}
 .tema-btn:hover{border-color:var(--cta)}
 .tema-btn:active{transform:scale(.88)}
@@ -436,7 +444,7 @@ html.tema-fade,html.tema-fade *{transition:background-color .45s ease,border-col
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="#inicio" data-rv="edge" data-d="80" aria-label="Casa Olmedo — inicio"><img src="assets/logo-blanco.png" alt="Casa Olmedo, almacén de quesos y fiambres" width="117" height="78"></a>
+    <a class="brand" href="#inicio" data-rv="edge" data-d="80" aria-label="Casa Olmedo — inicio"><img src="assets/logo-blanco.png" alt="Casa Olmedo, almacén de quesos y fiambres" width="117" height="78"><img class="logo-n" src="assets/logo-negro.png" alt="" aria-hidden="true" width="117" height="78"></a>
     <nav class="nav" aria-label="Principal">
       <a href="#productos" data-rv="down" data-st data-d="320">Productos</a>
       <a href="#nosotros" data-rv="down" data-st data-d="320">Nosotros</a>
@@ -1243,7 +1251,7 @@ document.addEventListener("visibilitychange", function(){ // si la persona vuelv
     btn.innerHTML=d?SOL:LUNA;
     btn.setAttribute("aria-label",d?"Pasar a modo día":"Pasar a modo noche");
     btn.title=d?"Modo día":"Modo noche";
-    var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content",d?"#0c0b09":"#111111");
+    var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content",d?"#F4F0E8":"#111111");
     if(swap){ btn.classList.remove("swap"); void btn.offsetWidth; btn.classList.add("swap"); }
   }
   function poner(t){ H.setAttribute("data-tema",t); try{ localStorage.setItem("co_tema",t); }catch(e){} }
