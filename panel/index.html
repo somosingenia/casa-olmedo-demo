@@ -44,7 +44,7 @@ body.con-aviso iframe{top:2.9rem;height:calc(100% - 2.9rem)}
   var PANEL_URL = "https://script.google.com/macros/s/AKfycbxYfuw6HK_QLR0o7IkRfJryxjwGefdHiQq5AVSmljDl9GjtFYYWuQNAydPi4odzJCr0/exec";
   var q = location.search;
   /* Aviso de demo: usuario y contraseña a la vista. Si CLAVE_DEMO queda vacía, el aviso no se muestra. */
-  var USUARIO_DEMO = "Germán", CLAVE_DEMO = "";
+  var USUARIO_DEMO = "Germán", CLAVE_DEMO = "german2026";
   var av = document.getElementById("aviso"), cerrado = false;
   try{ cerrado = sessionStorage.getItem("co_aviso") === "0"; }catch(e){}
   if(CLAVE_DEMO && !cerrado && !/[?&]instalar=1/.test(q)){
