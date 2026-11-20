@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Casa Olmedo — Panel de gestión</title>
+<meta name="description" content="Panel de gestión de Casa Olmedo: pedidos, stock, ventas y clientes.">
+<meta name="theme-color" content="#111111">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Casa Olmedo">
+<meta property="og:title" content="Casa Olmedo — Panel de gestión">
+<meta property="og:description" content="Pedidos, stock, ventas y clientes en un solo lugar. Ingresá con tu usuario.">
+<meta property="og:image" content="https://chatbot-lab-info.github.io/casa-olmedo-demo/panel/compartir.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+html,body{margin:0;height:100%;background:#111;color:#fff;font-family:Montserrat,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
+iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#111}
+.portada{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;padding:2rem;text-align:center}
+.portada img{width:min(300px,70vw);height:auto}
+.portada p{margin:0;color:#d8cdbb;max-width:32rem;line-height:1.5}
+.portada a{display:inline-block;background:#c99a32;color:#171205;font-weight:700;text-decoration:none;padding:.9rem 1.8rem;border-radius:999px}
+.portada small{color:#9a9488;max-width:30rem;line-height:1.5}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main class="portada" id="portada" hidden>
+  <img src="../assets/logo-blanco.png" alt="Casa Olmedo">
+  <p>Panel de gestión de Casa Olmedo.</p>
+  <a href="./">Abrir el panel</a>
+  <small>Para instalarlo como aplicación: en el celular, abrí el menú del navegador y elegí «Agregar a la pantalla de inicio» (iPhone: botón Compartir, luego «Agregar a inicio»).</small>
+</main>
+<script>
+(function(){
+  var PANEL_URL = "https://script.google.com/macros/s/AKfycbxYfuw6HK_QLR0o7IkRfJryxjwGefdHiQq5AVSmljDl9GjtFYYWuQNAydPi4odzJCr0/exec";
+  var q = location.search;
+  if(/[?&]instalar=1/.test(q)){ document.getElementById("portada").hidden = false; return; } // portada para compartir: se ve el botón y las instrucciones
+  var f = document.createElement("iframe");
+  f.title = "Panel de gestión";
+  f.allow = "clipboard-write";
+  function abrir(){ f.src = PANEL_URL + (PANEL_URL.indexOf("?") > -1 ? "&" : "?") + "nb=-10&t=" + Date.now(); }
+  abrir();
+  document.body.appendChild(f);
+  // El panel pide recargarse cuando hay una versión nueva: se vuelve a abrir el marco.
+  window.addEventListener("message", function(e){ if(e.data && e.data.ingenia === "recargar") abrir(); });
+})();
+</script>
+</body>
+</html>
