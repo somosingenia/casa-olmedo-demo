@@ -226,8 +226,14 @@ footer.pie small{font-size:.8rem}
 /* ---------- carrito (drawer) ---------- */
 .scrim{position:fixed;inset:0;background:rgba(17,17,17,.55);z-index:60;opacity:0;pointer-events:none;transition:opacity .25s}
 .scrim.on{opacity:1;pointer-events:auto}
-.drawer{position:fixed;top:0;right:0;bottom:0;width:min(28rem,100%);background:var(--fondo);z-index:70;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .3s cubic-bezier(.2,.8,.2,1);padding-top:env(safe-area-inset-top,0)}
-.drawer.on{transform:none;box-shadow:-18px 0 40px rgba(0,0,0,.25)}
+.drawer{position:fixed;left:50%;top:50%;width:min(32rem,calc(100% - 1.5rem));max-height:min(42rem,calc(100dvh - 2rem));background:var(--fondo);z-index:70;display:flex;flex-direction:column;border-radius:20px;overflow:hidden;transform:translate(-50%,-50%);visibility:hidden;pointer-events:none;box-shadow:0 30px 80px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.06);will-change:transform,clip-path}
+.drawer.on{visibility:visible;pointer-events:auto}
+.drawer.abre>*{animation:modalCont .55s var(--ease-out) .2s both}
+.drawer.abre>.drawer-body{animation-delay:.28s}
+.drawer.abre>.drawer-foot{animation-delay:.36s}
+@keyframes modalCont{from{opacity:0;transform:translate3d(0,14px,0)}to{opacity:1;transform:none}}
+.cart-btn.pulso,.bar button.pulso{animation:cartPulso .6s var(--spring)}
+@keyframes cartPulso{0%{transform:scale(1)}35%{transform:scale(.9)}100%{transform:scale(1)}}
 .drawer-head{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.25rem;background:var(--marca);color:#fff}
 .drawer-head h2{font-size:1.9rem}
 .x{width:2.4rem;height:2.4rem;font-size:1.7rem;line-height:1;border-radius:4px;color:#fff}
@@ -350,7 +356,7 @@ fieldset.field legend{padding:0;margin-bottom:.3rem}
 @keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.5)}100%{transform:scale(1)}}
 
 /* carrito: lo que contiene entra escalonado; el tilde se dibuja */
-.js .kid{animation:kidIn .7s var(--ease-out) both;animation-delay:calc(var(--i,0) * 75ms + 120ms)}
+.js .kid{animation:kidIn .7s var(--ease-out) both;animation-delay:calc(var(--i,0) * 75ms + 380ms)}
 @keyframes kidIn{from{opacity:0;transform:translate3d(30px,0,0)}to{opacity:1;transform:none}}
 .js .ok-box .tilde.kid{animation:popIn .8s var(--spring) .1s both}
 @keyframes popIn{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
@@ -969,14 +975,55 @@ function calc(modalidad, pago){
 
 /* ---- drawer ---- */
 function abierto(){ return $("#drawer").classList.contains("on"); }
-function abrir(){
-  ultimoFoco = document.activeElement; vista = "carrito";
-  $("#drawer").classList.add("on"); $("#scrim").classList.add("on"); $("#drawer").setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden"; $("#toast").classList.remove("on"); render(); escalonar($("#drawerBody")); $("#cerrarCarrito").focus();
+var animando = false, origenBtn = null;
+function sinMov(){ try{ return window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } }
+function geom(btn){ // de dónde sale y adónde vuelve: el ícono del carrito que se tocó
+  var d = $("#drawer"), m = d.getBoundingClientRect();
+  var ic = (btn && (btn.querySelector("svg") || btn)) || null;
+  if(!ic || !m.width) return null;
+  var r = ic.getBoundingClientRect(); if(!r.width) return null;
+  var padX = Math.max(10, r.width * .6), padY = Math.max(10, r.height * .6); // un poco más grande que el ícono
+  var w = r.width + padX, h = r.height + padY, cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  return { dx: cx - (m.left + m.width / 2), dy: cy - (m.top + m.height / 2), sx: w / m.width, sy: h / m.height, rad: Math.min(w, h) / 2 };
+}
+function tf(g){ return g ? "translate(-50%,-50%) translate(" + g.dx + "px," + g.dy + "px) scale(" + g.sx + "," + g.sy + ")" : "translate(-50%,-50%)"; }
+function abrir(btn){
+  if(animando) return;
+  ultimoFoco = document.activeElement; vista = "carrito"; origenBtn = btn || null;
+  var d = $("#drawer");
+  d.classList.add("on"); $("#scrim").classList.add("on"); d.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden"; $("#toast").classList.remove("on"); render(); escalonar($("#drawerBody"));
+  var g = sinMov() ? null : geom(btn);
+  if(g && d.animate){
+    animando = true; d.classList.add("abre");
+    if(btn) { btn.classList.remove("pulso"); void btn.offsetWidth; btn.classList.add("pulso"); }
+    var an = d.animate([
+      { transform: tf(g), borderRadius: g.rad + "px", opacity: .2, offset: 0 },
+      { opacity: 1, offset: .22 },
+      { transform: "translate(-50%,-50%)", borderRadius: "20px", opacity: 1, offset: 1 }
+    ], { duration: 720, easing: "cubic-bezier(.16,1,.3,1)" });
+    var fin = function(){ animando = false; d.classList.remove("abre"); };
+    an.onfinish = fin; an.oncancel = fin;
+  }
+  $("#cerrarCarrito").focus({ preventScroll: true });
 }
 function cerrar(){
-  $("#drawer").classList.remove("on"); $("#scrim").classList.remove("on"); $("#drawer").setAttribute("aria-hidden", "true");
-  document.body.style.overflow = ""; if(ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+  var d = $("#drawer"); if(animando || !d.classList.contains("on")) return;
+  var listo = function(){
+    d.classList.remove("on"); d.classList.remove("abre"); d.setAttribute("aria-hidden", "true"); animando = false;
+    document.body.style.overflow = ""; if(ultimoFoco && ultimoFoco.focus) ultimoFoco.focus({ preventScroll: true });
+  };
+  $("#scrim").classList.remove("on");
+  var g = sinMov() ? null : geom(origenBtn);
+  if(g && d.animate){
+    animando = true;
+    var an = d.animate([
+      { transform: "translate(-50%,-50%)", borderRadius: "20px", opacity: 1, offset: 0 },
+      { opacity: 1, offset: .6 },
+      { transform: tf(g), borderRadius: g.rad + "px", opacity: 0, offset: 1 }
+    ], { duration: 460, easing: "cubic-bezier(.65,0,.35,1)", fill: "forwards" });
+    an.onfinish = function(){ listo(); an.cancel(); }; an.oncancel = listo;
+  } else listo();
 }
 function render(){
   if(vista === "datos") return renderDatos();
@@ -1113,7 +1160,7 @@ function mostrarOk(p, res){
 /* ================= EVENTOS ================= */
 document.addEventListener("click", function(e){
   var t = e.target, b;
-  if((b = t.closest("[data-abrir-carrito]"))){ abrir(); return; }
+  if((b = t.closest("[data-abrir-carrito]"))){ abrir(b); return; }
   if(t.closest("#cerrarCarrito") || t === $("#scrim") || t.closest("[data-cerrar]")){ cerrar(); return; }
   if(t.closest("[data-cerrar-ir]")){ cerrar(); location.hash = "#productos"; return; }
   if((b = t.closest(".cat-tile"))){ filtroCat = b.dataset.cat; pintarCategorias(); pintarGrid(true); $("#productos").scrollIntoView(); return; }
