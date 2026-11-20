@@ -19,6 +19,10 @@
 <style>
 html,body{margin:0;height:100%;background:#111;color:#fff;font-family:Montserrat,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
 iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#111}
+body.con-aviso iframe{top:2.9rem;height:calc(100% - 2.9rem)}
+.aviso{position:fixed;top:0;left:0;right:0;height:2.9rem;display:flex;align-items:center;justify-content:center;gap:.6rem;padding:0 2.6rem 0 .8rem;background:#c99a32;color:#171205;font-size:.82rem;font-weight:600;text-align:center;line-height:1.25;z-index:5}
+.aviso b{font-weight:800;letter-spacing:.02em;background:rgba(23,18,5,.12);padding:.12rem .5rem;border-radius:6px;user-select:all}
+.aviso button{position:absolute;right:.4rem;top:50%;transform:translateY(-50%);width:2.1rem;height:2.1rem;border:0;border-radius:50%;background:transparent;color:#171205;font-size:1.3rem;line-height:1;cursor:pointer}
 .portada{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;padding:2rem;text-align:center}
 .portada img{width:min(300px,70vw);height:auto}
 .portada p{margin:0;color:#d8cdbb;max-width:32rem;line-height:1.5}
@@ -28,6 +32,7 @@ iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#111}
 </style>
 </head>
 <body>
+<div class="aviso" id="aviso" hidden><span>Demo: tocá la tarjeta de <b id="avUsu"></b> y entrá con la contraseña <b id="avClave"></b></span><button type="button" id="avX" aria-label="Cerrar aviso">&times;</button></div>
 <main class="portada" id="portada" hidden>
   <img src="../assets/logo-blanco.png" alt="Casa Olmedo">
   <p>Panel de gestión de Casa Olmedo.</p>
@@ -38,6 +43,16 @@ iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#111}
 (function(){
   var PANEL_URL = "https://script.google.com/macros/s/AKfycbxYfuw6HK_QLR0o7IkRfJryxjwGefdHiQq5AVSmljDl9GjtFYYWuQNAydPi4odzJCr0/exec";
   var q = location.search;
+  /* Aviso de demo: usuario y contraseña a la vista. Si CLAVE_DEMO queda vacía, el aviso no se muestra. */
+  var USUARIO_DEMO = "Germán", CLAVE_DEMO = "";
+  var av = document.getElementById("aviso"), cerrado = false;
+  try{ cerrado = sessionStorage.getItem("co_aviso") === "0"; }catch(e){}
+  if(CLAVE_DEMO && !cerrado && !/[?&]instalar=1/.test(q)){
+    document.getElementById("avUsu").textContent = USUARIO_DEMO;
+    document.getElementById("avClave").textContent = CLAVE_DEMO;
+    av.hidden = false; document.body.classList.add("con-aviso");
+    document.getElementById("avX").onclick = function(){ av.hidden = true; document.body.classList.remove("con-aviso"); try{ sessionStorage.setItem("co_aviso","0"); }catch(e){} };
+  }
   if(/[?&]instalar=1/.test(q)){ document.getElementById("portada").hidden = false; return; } // portada para compartir: se ve el botón y las instrucciones
   var f = document.createElement("iframe");
   f.title = "Panel de gestión";
